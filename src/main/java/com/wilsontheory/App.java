@@ -11,6 +11,7 @@ import java.util.Arrays;
 public class App {
 
     public static void main(String[] args) {
+        final int TEST_ITERATIONS = 100;
 
         AddressBook ab = AddressBook.newBuilder()
                 .addPeople(
@@ -65,7 +66,7 @@ public class App {
 
 
         long start1 = System.nanoTime();
-        for (int n=1; n<100; n++){
+        for (int n=1; n<TEST_ITERATIONS; n++){
             try {
                 getEmailFromSerializedProtobufAddressBook(protobuffBytesAddressBook);
             } catch (IOException e) {
@@ -75,22 +76,23 @@ public class App {
         long time1 = (System.nanoTime() - start1) / 1000000;
 
         long start2 = System.nanoTime();
-        for (int n=1; n<100; n++){
+        for (int n=1; n<TEST_ITERATIONS; n++){
             getEmailFromSerializedJsonAddressBook(jsonBytesAddressBook);
         }
         long time2 = (System.nanoTime() - start2) / 1000000;
 
         System.out.println("EXPERIMENT 1: Address Book deserialization");
+        System.out.println("protobuf: " + protobuffBytesAddressBook.length + "bytes, json: " + jsonBytesAddressBook.length + "bytes");
         System.out.println("protobuf: " + time1);
         System.out.println("json: " + time2);
         long diff = time2 - time1;
-        System.out.println("protobuf faster by : " + diff + "ms");
+        System.out.println("protobuf cumulatively faster by : " + diff + "ms, ratio: " + (float) time2 / time1);
 
 
         System.out.println("\n---\n");
 
         long start3 = System.nanoTime();
-        for (int n=1; n<100; n++){
+        for (int n=1; n<TEST_ITERATIONS; n++){
             try {
                 getEmailFromSerializedProtobufPerson(protobuffBytesPerson);
             } catch (IOException e) {
@@ -100,16 +102,17 @@ public class App {
         long time3 = (System.nanoTime() - start3) / 1000000;
 
         long start4 = System.nanoTime();
-        for (int n=1; n<100; n++){
+        for (int n=1; n<TEST_ITERATIONS; n++){
             getEmailFromSerializedJsonPerson(jsonBytesPerson);
         }
         long time4 = (System.nanoTime() - start4) / 1000000;
 
         System.out.println("EXPERIMENT 2: Person deserialization");
+        System.out.println("protobuf: " + protobuffBytesPerson.length + "bytes, json: " + jsonBytesPerson.length + "bytes");
         System.out.println("protobuf: " + time3);
         System.out.println("json: " + time4);
         diff = time4 - time3;
-        System.out.println("protobuf faster by : " + diff + "ms");
+        System.out.println("protobuf cumulatively faster by : " + diff + "ms, ratio: " + (float) time4 / time3);
 
     }
 
