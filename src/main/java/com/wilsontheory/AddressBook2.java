@@ -20,8 +20,9 @@ public class AddressBook2 {
             return id;
         }
 
-        public void setId(int id) {
+        public Person setId(int id) {
             this.id = id;
+            return this;
         }
 
         private int id;
@@ -30,8 +31,9 @@ public class AddressBook2 {
             return name;
         }
 
-        public void setName(String name) {
+        public Person setName(String name) {
             this.name = name;
+            return this;
         }
 
         private String name;
@@ -40,8 +42,9 @@ public class AddressBook2 {
             return email;
         }
 
-        public void setEmail(String email) {
+        public Person setEmail(String email) {
             this.email = email;
+            return this;
         }
 
         private String email;
@@ -50,13 +53,18 @@ public class AddressBook2 {
             return phones;
         }
 
-        public void setPhones(List<Num> phones) {
-            this.phones = phones;
+        public Person addPhone(Num num) {
+            this.phones.add(num);
+            return this;
         }
 
-        List<Num> phones;
+        List<Num> phones = new ArrayList<>();
 
         class Num {
+            public Num(String number, int type){
+                this.number = number;
+                this.type = type;
+            }
             String number;
             int type;
         }
